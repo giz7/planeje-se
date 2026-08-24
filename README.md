@@ -1,75 +1,77 @@
-# React + TypeScript + Vite
+# Planeje-se
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## O que o projeto faz
 
-Currently, two official plugins are available:
+O Planeje-se é uma aplicação para ajudar o usuário a organizar uma meta financeira. A pessoa informa sua renda, seus gastos, suas dívidas, o nome da meta, o valor desejado e o prazo. Depois, a aplicação calcula a economia mensal necessária e apresenta um diagnóstico financeiro personalizado.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Como executar
 
-## React Compiler
+Pré-requisito: Node.js instalado.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Instale as dependências:
 
-## Expanding the ESLint configuration
+	```bash
+	npm install
+	```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+2. Crie um arquivo `.env.local` na raiz do projeto, no mesmo nível do `package.json`:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+	```env
+	VITE_GEMINI_API_KEY=sua_chave_da_api_gemini
+	```
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+3. Inicie o servidor de desenvolvimento:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+	```bash
+	npm run dev
+	```
 
+4. Acesse o endereço exibido pelo Vite, geralmente `http://localhost:5173`.
+
+Para gerar uma versão de produção, use:
+
+```bash
+npm run build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Não compartilhe a chave da API nem a envie para o repositório.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Tecnologias utilizadas
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- React 19 e TypeScript
+- Vite
+- React Router
+- Tailwind CSS
+- Lucide React, para os ícones
+- React Loading Skeleton, para o estado de carregamento
+- Google Gemini API, para gerar o diagnóstico financeiro
+- `localStorage`, para salvar as simulações no navegador
 
-```
+## Melhoria implementada
+
+Foi implementado um quadro de Insight Financeiro Personalizado. Ele envia os dados da simulação para a API do Gemini e exibe:
+
+- análise de viabilidade da meta;
+- diagnóstico do orçamento;
+- sugestões para reduzir gastos;
+- ideias de renda extra;
+- sugestão de investimento;
+- mensagem motivacional personalizada.
+
+O resultado também é salvo junto da simulação. Assim, ele pode ser exibido novamente sem fazer uma nova requisição. Em caso de falha, a tela informa o erro e oferece o botão para tentar novamente.
+
+## Como testar o fluxo principal
+
+1. Execute `npm run dev`.
+2. Na página inicial, preencha todos os campos do formulário.
+3. Clique em **Gerar simulação**.
+4. Confira os valores calculados na página de resultado.
+5. Aguarde o carregamento do quadro **Insight Financeiro Personalizado**.
+6. Confirme se o diagnóstico, as sugestões e as demais seções foram exibidos.
+7. Atualize a página e verifique se o insight salvo continua disponível.
+8. Para testar o tratamento de erro, use uma chave inválida ou interrompa o acesso à API e clique em **Tentar novamente**.
+
+## O que aprendi
+
+Durante o desafio, aprendi a organizar uma aplicação React em componentes reutilizáveis, controlar o formulário por etapas e compartilhar dados por hooks e `localStorage`. Também pratiquei a integração com uma API de inteligência artificial, o tratamento de estados de carregamento e erro, a validação de respostas JSON e a criação de uma interface responsiva com Tailwind CSS.
